@@ -1,8 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Drawernav from "./Drawernav";
-
+import Home from "../screens/Home";
 import Addfirestore from "../screens/Addfirestore";
 import Listfirestore from "../screens/Listfirestore";
 import Detailsfirestore from "../screens/Detailsfirestore";
@@ -19,7 +18,7 @@ export default function Stacknav() {
 					headerShown: false,
 				}}
 			>
-				<Stack.Screen name="Drawer" component={Drawernav} />
+				<Stack.Screen name="Home" component={Home} />
 				<Stack.Screen
 					name="Addfirestore"
 					component={Addfirestore}
@@ -44,7 +43,6 @@ export default function Stacknav() {
 						headerTitle: "Details",
 					}}
 				/>
-
 				<Stack.Screen
 					name="Updatefirestore"
 					component={Updatefirestore}
