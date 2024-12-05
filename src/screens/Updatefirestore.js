@@ -1,28 +1,33 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import { updateDoc, doc } from "firebase/firestore";
 import { database } from "../config/firestore";
 
-export default function Updatefirestore({ route, navigation }) {
+export default function Updatefirestore({ route }) {
+	const navigation = useNavigation();
 	const { item } = route.params;
 	const id = item.id;
+
 	const [newItem, setNewItem] = useState({
-		companyname: item.companyname,
-		about: item.about,
+		itemID: item.itemID || "",
+		toDo: item.toDo || "",
+		description: item.description || "",
+		due_date: item.due_date || "",
+		status: item.status || "",
+		createdAt: item.createdAt || new Date(),
 		updatedAt: new Date(),
 	});
 
-	const onUpdate = async () => {
+	const onSubmit = async () => {
 		try {
 			await updateDoc(doc(database, "cruds", id), newItem);
 			alert("Update Successful");
+			navigation.navigate("Listfirestore");
 		} catch (error) {
 			alert("Error Updating Data");
 		}
-		navigation.navigate("Home", {
-			data: item,
-		});
 	};
 
 	return (
@@ -30,18 +35,41 @@ export default function Updatefirestore({ route, navigation }) {
 			<View style={styles.innerContainer}>
 				<Text style={styles.textHeader}>Update Data</Text>
 				<TextInput
-					style={styles.textInput}
 					multiline={false}
-					onChangeText={(text) => setNewItem({ ...newItem, companyname: text })}
-					defaultValue={item.companyname}
+					onChangeText={(text) => setNewItem({ ...newItem, itemID: text })}
+					placeholder="ToDo ID"
+					style={styles.textInput}
+					defaultValue={newItem.itemID}
 				></TextInput>
 				<TextInput
-					style={styles.textInput}
 					multiline={true}
-					onChangeText={(text) => setNewItem({ ...newItem, about: text })}
-					defaultValue={item.about}
+					onChangeText={(text) => setNewItem({ ...newItem, toDo: text })}
+					placeholder="ToDO Name"
+					style={styles.textInput}
+					defaultValue={newItem.toDo}
 				></TextInput>
-				<Button title="update" onPress={onUpdate} />
+				<TextInput
+					multiline={true}
+					onChangeText={(text) => setNewItem({ ...newItem, description: text })}
+					placeholder="Description"
+					style={styles.textInput}
+					defaultValue={newItem.description}
+				></TextInput>
+				<TextInput
+					multiline={true}
+					onChangeText={(text) => setNewItem({ ...newItem, due_date: text })}
+					placeholder="Due Date (YYYY-MM-DD)"
+					style={styles.textInput}
+					defaultValue={newItem.due_date}
+				></TextInput>
+				<TextInput
+					multiline={true}
+					onChangeText={(text) => setNewItem({ ...newItem, status: text })}
+					placeholder="Status"
+					style={styles.textInput}
+					defaultValue={newItem.status}
+				></TextInput>
+				<Button title="Submit" onPress={onSubmit} />
 			</View>
 		</View>
 	);
@@ -58,7 +86,10 @@ const styles = StyleSheet.create({
 		borderRadius: 15,
 		alignItems: "center",
 		backgroundColor: "#fff",
-		elevation: 10,
+		shadowOffset: { width: 2, height: 2 },
+		elevation: 20,
+		shadowColor: "#333",
+		shadowOpacity: 0.3,
 	},
 	textHeader: {
 		fontWeight: "bold",
@@ -66,10 +97,10 @@ const styles = StyleSheet.create({
 	},
 	textInput: {
 		width: "90%",
-		padding: 10,
+		padding: 5,
 		marginVertical: 6,
 		borderWidth: 1,
-		borderRadius: 6,
+		borderRadius: 10,
 		borderColor: "red",
 	},
 });

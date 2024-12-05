@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, Button, Pressable } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, Pressable, Alert } from "react-native";
 
 import { doc, deleteDoc } from "firebase/firestore";
 import { database } from "../config/firestore";
@@ -7,29 +8,52 @@ import { MaterialIcons } from "@expo/vector-icons";
 export default function Detailsfirestore({ route, navigation }) {
 	const { data } = route.params;
 
-	const onDelete = () => {
-		const docRef = doc(database, "cruds", data.id);
-		deleteDoc(docRef);
-		navigation.goBack();
+	const onDelete = async () => {
+		try {
+			await deleteDoc(doc(database, "cruds", data.id));
+			Alert.alert("Success", "Data Deleted Successfully");
+			navigation.goBack();
+		} catch (error) {
+			Alert.alert("Error", "Failed to delete the data.");
+		}
 	};
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.innerContainer}>
-				<Text style={styles.companyname}>{data.companyname}</Text>
-				<Text>{data.about}</Text>
-				<View style={styles.icons}>
+				<Text style={styles.textHeader}>Details</Text>
+				<Text style={styles.textItem}>ToDo ID: {data.itemID}</Text>
+				<Text style={styles.textItem}>ToDo Name: {data.toDo}</Text>
+				<Text style={styles.textDescription}>
+					Description: {data.description}
+				</Text>
+				<Text style={styles.textDescription}>Due Date: {data.due_date}</Text>
+				<Text style={styles.textDescription}>Status: {data.status}</Text>
+
+				<View style={styles.buttonContainer}>
 					<Pressable
+						style={({ pressed }) => [
+							styles.actionButton,
+							{ opacity: pressed ? 0.7 : 1 },
+						]}
 						onPress={() =>
 							navigation.navigate("Updatefirestore", {
 								item: data,
 							})
 						}
 					>
-						<MaterialIcons name="edit" size={24} color="#0000FF" />
+						<MaterialIcons name="edit" size={20} color="#0000FF" />
+						<Text style={styles.buttonText}>Edit</Text>
 					</Pressable>
-					<Pressable onPress={onDelete}>
-						<MaterialIcons name="delete" size={24} color="#FF6768" />
+					<Pressable
+						style={({ pressed }) => [
+							styles.actionButton,
+							{ opacity: pressed ? 0.7 : 1 },
+						]}
+						onPress={onDelete}
+					>
+						<MaterialIcons name="delete" size={20} color="#FF6768" />
+						<Text style={styles.buttonText}>Delete</Text>
 					</Pressable>
 				</View>
 			</View>
@@ -43,23 +67,51 @@ const styles = StyleSheet.create({
 		backgroundColor: "#dfedfa",
 	},
 	innerContainer: {
-		margin: 15,
 		padding: 15,
+		margin: 15,
 		borderRadius: 15,
-		alignItems: "center",
 		backgroundColor: "#fff",
-		elevation: 10,
+		alignItems: "center",
+		shadowOffset: { width: 2, height: 2 },
+		elevation: 20,
+		shadowColor: "#333",
+		shadowOpacity: 0.3,
 	},
-	companyname: {
+	textHeader: {
 		fontWeight: "bold",
-		paddingBottom: 15,
+		fontSize: 20,
+		paddingBottom: 20,
+		color: "#333",
 	},
-	about: {
+	textItem: {
+		fontWeight: "bold",
+		fontSize: 16,
+		paddingBottom: 10,
+		color: "#333",
+	},
+	textDescription: {
 		fontWeight: "300",
+		fontSize: 14,
+		paddingBottom: 5,
+		color: "#666",
 	},
-	icons: {
+	buttonContainer: {
 		flexDirection: "row",
-		paddingTop: 20,
-		alignSelf: "flex-end",
+		justifyContent: "space-between",
+		marginTop: 20,
+	},
+	actionButton: {
+		flexDirection: "row",
+		alignItems: "center",
+		padding: 10,
+		marginHorizontal: 10,
+		borderRadius: 10,
+		backgroundColor: "#f0f0f0",
+		elevation: 5,
+	},
+	buttonText: {
+		marginLeft: 5,
+		fontSize: 14,
+		color: "#555",
 	},
 });

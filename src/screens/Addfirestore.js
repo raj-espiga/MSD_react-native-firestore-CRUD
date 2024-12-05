@@ -8,8 +8,11 @@ import { database } from "../config/firestore";
 export default function Addfirestore() {
 	const navigation = useNavigation();
 	const [newItem, setNewItem] = useState({
-		companyname: "",
-		about: "",
+		itemID: "",
+		toDo: "",
+		description: "",
+		due_date: "",
+		status: "",
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	});
@@ -29,14 +32,32 @@ export default function Addfirestore() {
 				<Text style={styles.textHeader}>Add Data</Text>
 				<TextInput
 					multiline={false}
-					onChangeText={(text) => setNewItem({ ...newItem, companyname: text })}
-					placeholder="Company Name"
+					onChangeText={(text) => setNewItem({ ...newItem, itemID: text })}
+					placeholder="ToDo ID"
 					style={styles.textInput}
 				></TextInput>
 				<TextInput
 					multiline={true}
-					onChangeText={(text) => setNewItem({ ...newItem, about: text })}
-					placeholder="About the Company"
+					onChangeText={(text) => setNewItem({ ...newItem, toDo: text })}
+					placeholder="ToDO Name"
+					style={styles.textInput}
+				></TextInput>
+				<TextInput
+					multiline={true}
+					onChangeText={(text) => setNewItem({ ...newItem, description: text })}
+					placeholder="Description"
+					style={styles.textInput}
+				></TextInput>
+				<TextInput
+					multiline={true}
+					onChangeText={(text) => setNewItem({ ...newItem, due_date: text })}
+					placeholder="Due Date (YYYY-MM-DD)"
+					style={styles.textInput}
+				></TextInput>
+				<TextInput
+					multiline={true}
+					onChangeText={(text) => setNewItem({ ...newItem, status: text })}
+					placeholder="Status"
 					style={styles.textInput}
 				></TextInput>
 				<Button title="Submit" onPress={onSubmit} />
