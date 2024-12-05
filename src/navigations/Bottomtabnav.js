@@ -19,17 +19,6 @@ export default function Bottomtabnav() {
 					),
 				}}
 			/>
-			<BottomTab.Screen
-				name="Profile"
-				component={Profile}
-				options={{
-					headerShown: false,
-					headerTitle: "Profile Page",
-					tabBarIcon: ({ color, size }) => (
-						<MaterialCommunityIcons name="face-man" color={color} size={size} />
-					),
-				}}
-			/>
 		</BottomTab.Navigator>
 	);
 }

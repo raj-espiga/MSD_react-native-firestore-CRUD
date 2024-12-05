@@ -19,7 +19,6 @@ export default function Listfirestore() {
 	useEffect(() => {
 		const dbRef = collection(database, "cruds");
 
-		// Query to order data by "createdAt" field in descending order
 		const q = query(dbRef, orderBy("createdAt", "desc"));
 
 		const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -60,7 +59,7 @@ export default function Listfirestore() {
 							]}
 						>
 							<View style={styles.innerContainer}>
-								<Text style={styles.textHeader}>ToDo: {item.toDo}</Text>
+								<Text style={styles.textHeader}>To-Do: {item.toDo}</Text>
 								<Text style={styles.textDescription}>
 									Description: {item.description}
 								</Text>

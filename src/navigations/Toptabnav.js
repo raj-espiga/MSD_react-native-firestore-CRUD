@@ -20,16 +20,6 @@ function MyTopTabs() {
 					),
 				}}
 			/>
-			<TopTab.Screen
-				name="Profile"
-				component={Profile}
-				options={{
-					tabBarLabel: "Basketball",
-					tabBarIcon: ({ color, size }) => (
-						<MaterialCommunityIcons name="face-man" color={color} size={size} />
-					),
-				}}
-			/>
 		</TopTab.Navigator>
 	);
 }

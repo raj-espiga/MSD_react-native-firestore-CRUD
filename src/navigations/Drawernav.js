@@ -12,8 +12,6 @@ export default function Drawernav() {
 	return (
 		<Drawer.Navigator>
 			<Drawer.Screen name="Home" component={Bottomtabnav} />
-			<Drawer.Screen name="About Us" component={About} />
-			<Drawer.Screen name="Contact Us" component={Contact} />
 		</Drawer.Navigator>
 	);
 }
