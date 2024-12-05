@@ -19,7 +19,7 @@ export default function Listfirestore() {
 	useEffect(() => {
 		const dbRef = collection(database, "cruds");
 
-		const q = query(dbRef, orderBy("createdAt", "desc"));
+		const q = query(dbRef, orderBy("itemID", "asc"));
 
 		const unsubscribe = onSnapshot(q, (querySnapshot) => {
 			setCruds(
