@@ -34,7 +34,7 @@ export default function Listfirestore() {
 		<View style={styles.container}>
 			<View>
 				<Button
-					title="Add Data"
+					title="Add Task"
 					onPress={() => navigation.navigate("Addfirestore")}
 					color="#0000FF"
 				/>
