@@ -1,6 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable, Alert } from "react-native";
-
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { doc, deleteDoc } from "firebase/firestore";
 import { database } from "../config/firestore";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -11,10 +10,10 @@ export default function Detailsfirestore({ route, navigation }) {
 	const onDelete = async () => {
 		try {
 			await deleteDoc(doc(database, "cruds", data.id));
-			Alert.alert("Success", "Data Deleted Successfully");
+			alert("Data Deleted Successfully");
 			navigation.goBack();
 		} catch (error) {
-			Alert.alert("Error", "Failed to delete the data.");
+			alert("Failed to delete the data.");
 		}
 	};
 
@@ -115,4 +114,3 @@ const styles = StyleSheet.create({
 		color: "#555",
 	},
 });
-	

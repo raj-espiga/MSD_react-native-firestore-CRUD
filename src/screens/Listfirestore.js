@@ -66,7 +66,14 @@ export default function Listfirestore() {
 								<Text style={styles.textDate}>
 									Due Date: {item.due_date}
 								</Text>
-								<Text style={styles.textStatus}>Status: {item.status}</Text>
+								<Text
+									style={[
+										styles.textStatus,
+										{ color: item.status === "PENDING" ? "red" : "green" },
+									]}
+								>
+									Status: {item.status}
+								</Text>
 							</View>
 						</Pressable>
 					)}
@@ -122,6 +129,5 @@ const styles = StyleSheet.create({
 	textStatus: {
 		fontWeight: "bold",
 		fontSize: 14,
-		color: "#0000FF",
 	},
 });
