@@ -6,6 +6,7 @@ import {
 	StyleSheet,
 	Pressable,
 	Button,
+	TextInput,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -14,7 +15,9 @@ import { database } from "../config/firestore";
 
 export default function Listfirestore() {
 	const navigation = useNavigation();
-	const [cruds, setCruds] = useState([]);
+	const [cruds, setCruds] = useState([]); // All tasks from Firestore
+	const [filteredCruds, setFilteredCruds] = useState([]); // Tasks after filtering
+	const [searchQuery, setSearchQuery] = useState(""); // Search input value
 
 	useEffect(() => {
 		const dbRef = collection(database, "cruds");
@@ -22,26 +25,55 @@ export default function Listfirestore() {
 		const q = query(dbRef, orderBy("itemID", "asc"));
 
 		const unsubscribe = onSnapshot(q, (querySnapshot) => {
-			setCruds(
-				querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-			);
+			const tasks = querySnapshot.docs.map((doc) => ({
+				...doc.data(),
+				id: doc.id,
+			}));
+			setCruds(tasks);
+			setFilteredCruds(tasks); // Initialize filteredCruds with all tasks
 		});
 
 		return unsubscribe;
 	}, []);
 
+	// Filter tasks based on the search query
+	const handleSearch = (text) => {
+		setSearchQuery(text);
+		if (text.trim() === "") {
+			setFilteredCruds(cruds); // Reset to all tasks if search query is empty
+		} else {
+			const filtered = cruds.filter((item) =>
+				item.toDo.toLowerCase().includes(text.toLowerCase())
+			);
+			setFilteredCruds(filtered);
+		}
+	};
+
 	return (
 		<View style={styles.container}>
 			<View>
+				{/* Add Task Button */}
 				<Button
 					title="Add Task"
 					onPress={() => navigation.navigate("Addfirestore")}
 					color="#0000FF"
 				/>
+
+				{/* Search Bar */}
+				<TextInput
+					style={styles.searchInput}
+					placeholder="Search tasks..."
+					value={searchQuery}
+					onChangeText={handleSearch}
+				/>
+
+				{/* Title */}
 				<Text style={styles.textTitle}>To-Do List</Text>
+
+				{/* Task List */}
 				<FlatList
 					style={{ height: "100%" }}
-					data={cruds}
+					data={filteredCruds}
 					numColumns={1}
 					renderItem={({ item }) => (
 						<Pressable
@@ -89,6 +121,15 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: "#dfedfa",
 		padding: 10,
+	},
+	searchInput: {
+		width: "100%",
+		padding: 10,
+		marginVertical: 10,
+		borderWidth: 1,
+		borderRadius: 10,
+		borderColor: "gray",
+		backgroundColor: "#fff",
 	},
 	textTitle: {
 		marginTop: 20,
