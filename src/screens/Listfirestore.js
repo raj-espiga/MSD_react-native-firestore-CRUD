@@ -52,25 +52,18 @@ export default function Listfirestore() {
 	return (
 		<View style={styles.container}>
 			<View>
-				{/* Add Task Button */}
-				<Button
-					title="Add Task"
-					onPress={() => navigation.navigate("Addfirestore")}
-					color="#0000FF"
-				/>
-
-				{/* Search Bar */}
 				<TextInput
 					style={styles.searchInput}
 					placeholder="Search tasks..."
 					value={searchQuery}
 					onChangeText={handleSearch}
 				/>
-
-				{/* Title */}
+				<Button
+					title="Add Task"
+					onPress={() => navigation.navigate("Addfirestore")}
+					color="#0000FF"
+				/>
 				<Text style={styles.textTitle}>To-Do List</Text>
-
-				{/* Task List */}
 				<FlatList
 					style={{ height: "100%" }}
 					data={filteredCruds}
