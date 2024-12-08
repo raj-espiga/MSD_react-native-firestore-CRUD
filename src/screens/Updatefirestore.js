@@ -29,7 +29,7 @@ export default function Updatefirestore({ route }) {
 				due_date: newItem.due_date.toISOString().split("T")[0],
 				updatedAt: new Date().toISOString(),
 			});
-			alert("Update Successful");
+			alert("Updated Successfully");
 			navigation.navigate("Listfirestore");
 		} catch (error) {
 			alert("Error Updating Data");

@@ -10,7 +10,7 @@ export default function Detailsfirestore({ route, navigation }) {
 	const onDelete = async () => {
 		try {
 			await deleteDoc(doc(database, "cruds", data.id));
-			alert("Data Deleted Successfully");
+			alert("Deleted Successfully");
 			navigation.goBack();
 		} catch (error) {
 			alert("Failed to delete the data.");

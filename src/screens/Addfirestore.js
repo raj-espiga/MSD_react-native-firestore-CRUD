@@ -25,6 +25,7 @@ export default function Addfirestore() {
 				...newItem,
 				due_date: newItem.due_date.toISOString().split("T")[0],
 			});
+			alert("Added Successfully");
 			navigation.navigate("Listfirestore");
 		} catch (error) {
 			alert("Error Adding Data");
